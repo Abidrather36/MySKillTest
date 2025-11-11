@@ -1,0 +1,6 @@
+@OSAP.WebApi_HostAddress = http://localhost:5278
+
+GET {{OSAP.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
