@@ -38,7 +38,6 @@ namespace MySkillTest.Application.Services
                     HttpStatusCodes.BadRequest
                 );
             }
-
             var role = new Role
             {
                 RoleId = Guid.NewGuid(),

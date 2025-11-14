@@ -14,6 +14,7 @@ namespace MySkillTest.Application.Abstractions.IEmailService
         Task<bool> SendEmailWithCCAsync(string subject, string body, string fromEmail, string toEmails, List<string> ccEmails);
         Task<bool> SendUserCredentialsEmailAsync(string email, string name, string password);
         Task<bool> SendUserExistsNotificationAsync(string email, string name);
+        Task<bool> SendForgotPasswordEmail(string email, int resetCode);
     }
 
 }

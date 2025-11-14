@@ -139,7 +139,8 @@ namespace MySkillTest.Application.Services
                 IsVerified = false,
                 IsLockedOut = false,
                 CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
+                ModifiedDate = DateTime.UtcNow,
+                MobileNo=model.MobileNo,
             };
 
             var userAdded = await userRepository.AddUser(userMaster);
@@ -221,8 +222,20 @@ namespace MySkillTest.Application.Services
         }
 
 
-        public Task<ApiResponse<UserMasterModel>> GetUserById(Guid id)
+        public async Task<ApiResponse<UserMasterModel>> GetUserById(Guid id)
         {
+           var user=await userRepository.GetUserById(id);
+            if(user != null)
+            {
+                return ApiResponse<UserMasterModel>.SuccessResponse(new UserMasterModel
+                {
+                    ClientId = user.UserId,
+                    UserName = user.UserName,
+                    Name = user.Name != null ? user.Name : "No User found",
+                    MobileNo = user.MobileNo,
+
+                }, ApiMessages.User.UserFound, HttpStatusCodes.OK);
+            }
             throw new NotImplementedException();
         }
 

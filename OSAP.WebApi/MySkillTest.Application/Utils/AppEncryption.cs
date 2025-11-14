@@ -20,8 +20,8 @@ namespace MySkillTest.Application.Utils
         }
         public static bool ComparePassword(string hashedPasswordFromDb, string password,string salt)
         {
-          var hashInputPassword = CreatePassword(password, salt);
-          return hashedPasswordFromDb == hashInputPassword;
+            var hashInputPassword = CreatePassword(password, salt);//model.OldPassword+salt
+            return hashedPasswordFromDb == hashInputPassword; //user.password==model.OldPassword+salt
         }
         public static string GetRandomConfirmationCode()
         {

@@ -12,6 +12,7 @@ namespace MySkillTest.Persistence
         public static IServiceCollection AddPersistenceService(this IServiceCollection services, IConfiguration configuration)
 
         {
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IRegisteredCompanyRepository, RegisteredCompanyRepository>();

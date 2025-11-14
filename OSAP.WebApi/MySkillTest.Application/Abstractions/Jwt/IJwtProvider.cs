@@ -8,12 +8,10 @@ using salesTrack.Domain.Models.JWT;
 
 namespace MySkillTest.Application.Abstractions.Jwt
 {
+
     public interface IJwtProvider
     {
-        public interface IJwtProvider
-        {
-            public UserTokens GenerateToken(UserMaster user);
-            public UserTokens GenerateRefreshToken(UserMaster user);
-        }
+        public UserTokens GenerateToken(UserMaster user);
+        public UserTokens GenerateRefreshToken(UserMaster user);
     }
 }
