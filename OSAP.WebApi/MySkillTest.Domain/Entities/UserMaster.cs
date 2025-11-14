@@ -33,7 +33,8 @@ namespace MySkillTest.Domain.Entities
         public DateTimeOffset LastLockoutDate { get; set; }
         public int? FailedPasswordAttemptCount { get; set; }
         public bool PasswordResetRequestActive { get; set; }
-
+        public int? ResetCode {  get; set; }
+        public DateTimeOffset? ResetExpiry { get; set; }
         public string? Name { get; set; }
         public long? MobileNo { get; set; }
 

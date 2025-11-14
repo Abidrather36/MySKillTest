@@ -44,6 +44,7 @@ namespace MySkillTest.Application.Services
             return await SendAsync(message);
         }
 
+
         public async Task<bool> SendNewCompanyRegisteredEmailAsync(RegisteredCompanyModel model)
         {
             if (!emailSettings.AllowSendEmails)
@@ -141,6 +142,35 @@ namespace MySkillTest.Application.Services
                 return false;
             }
         }
+        public async Task<bool> SendForgotPasswordEmail(string email, int resetCode)
+        {
+            if (!emailSettings.AllowSendEmails)
+                return true;
+
+            string subject = "Reset Password";
+
+            string resetLink = $"http://localhost:5278/api/auth/Reset-Password?resetCode={resetCode}";
+
+            string body = $@"
+                Hi,<br /><br />
+                We received a request to reset your password.<br /><br />
+                Please click the button below to reset your password:<br /><br />
+                <a href='{resetLink}' 
+                   style='background-color: #4CAF50; color: white; padding: 10px 20px;
+                          text-align: center; text-decoration: none; display: inline-block;
+                          font-size: 16px; border-radius: 5px;'>
+                   Reset Password
+                </a><br /><br />
+                This code will expire in 5 minutes.<br /><br />
+                Thanks,<br />
+                Team {emailSettings.AppName}";
+
+            string fromEmail = emailSettings.FromMail ?? emailSettings.From;
+
+            return await SendEmailAsync(subject, body, fromEmail, email);
+        }
+
+
     }
 
 }

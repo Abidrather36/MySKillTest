@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -16,8 +17,18 @@ namespace OSAP.WebApi.Models
     }
     public class ChangePasswordModel
     {
-        public int UserId { get; set; }
-        public string Password { get; set; }
-        public string NewPassword { get; set; }
+        public Guid? UserId { get; set; }
+
+
+        [Required(ErrorMessage = "Enter Old Password")]
+        public string OldPassword { get; set; } = string.Empty;
+
+
+        [Required(ErrorMessage = "Enter New password")]
+        public string NewPassword { get; set; } = string.Empty;
+
+
+        [Compare(nameof(NewPassword))]
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

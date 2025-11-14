@@ -12,6 +12,7 @@ namespace MySkillTest.Application
         public static IServiceCollection AddApplicationService(this IServiceCollection services,IConfiguration configuration)
         {
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRegisterCompanyService, RegisterCompanyService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRoleService, UserRoleService>();
