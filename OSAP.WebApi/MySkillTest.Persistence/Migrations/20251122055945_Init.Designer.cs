@@ -3,43 +3,46 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySkillTest.Persistence.Data;
 
 #nullable disable
 
-namespace MySkillTest.Persistence.Data.Migrations
+namespace MySkillTest.Persistence.Migrations
 {
     [DbContext(typeof(MySkillTestDbContext))]
-    partial class MySkillTestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251122055945_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("MySkillTest.Domain.Domain.RegisteredCompany", b =>
                 {
-                    b.Property<Guid>("RegisteredCompanyId")
+                    b.Property<int>("RegisteredCompanyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegisteredCompanyId"));
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -52,16 +55,14 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("MobileNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -71,14 +72,16 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("RegisteredCompanyId");
 
-                    b.ToTable("RegisteredCompanies", (string)null);
+                    b.ToTable("RegisteredCompany");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Answer", b =>
                 {
-                    b.Property<Guid>("AnswerId")
+                    b.Property<int>("AnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnswerId"));
 
                     b.Property<int?>("AnswerOrder")
                         .HasColumnType("int");
@@ -90,8 +93,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<bool?>("CorrectAnswer")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -111,38 +114,39 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("AnswerId");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Assessment", b =>
                 {
-                    b.Property<Guid>("AssessmentId")
+                    b.Property<int>("AssessmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssessmentId"));
 
                     b.Property<bool?>("AllowPausing")
                         .HasColumnType("bit");
 
                     b.Property<string>("AssessmentName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("AttemptsAllowed")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -174,9 +178,6 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<bool?>("ReadQuestionsFromAssessment")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("SecondaryClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("TimeLimitInMinutes")
                         .HasColumnType("int");
 
@@ -184,28 +185,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("SecondaryClientId");
-
-                    b.ToTable("Assessments", (string)null);
+                    b.ToTable("Assessment");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentDetail", b =>
                 {
-                    b.Property<Guid>("AssessmentDetailId")
+                    b.Property<int>("AssessmentDetailId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AssessmentDomainDomainId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssessmentDetailId"));
 
-                    b.Property<Guid>("AssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ComplexityId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ComplexityId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -216,8 +214,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("DomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DomainId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -239,26 +237,28 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("AssessmentDetailId");
 
-                    b.HasIndex("AssessmentDomainDomainId");
-
                     b.HasIndex("AssessmentId");
 
                     b.HasIndex("ComplexityId");
 
-                    b.ToTable("AssessmentDetails");
+                    b.HasIndex("DomainId");
+
+                    b.ToTable("AssessmentDetail");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentDomain", b =>
                 {
-                    b.Property<Guid>("DomainId")
+                    b.Property<int>("DomainId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CompilerId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DomainId"));
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CompilerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -271,13 +271,11 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("DomainName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DomainShortName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -288,8 +286,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("PrimaryDomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("PrimaryDomainId")
+                        .HasColumnType("int");
 
                     b.HasKey("DomainId");
 
@@ -297,26 +295,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("PrimaryDomainId");
 
-                    b.ToTable("AssessmentDomain", (string)null);
+                    b.ToTable("AssessmentDomain");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentDomainLimitTracker", b =>
                 {
-                    b.Property<Guid>("AssessmentDomainLimitTrackerId")
+                    b.Property<int>("AssessmentDomainLimitTrackerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AssessmentDomainDomainId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssessmentDomainLimitTrackerId"));
 
                     b.Property<int?>("AssessmentDomainLimit")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ComplexityId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ComplexityId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -327,8 +324,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("DomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DomainId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -342,28 +339,30 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<int?>("QuestionsPresentedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("AssessmentDomainLimitTrackerId");
 
-                    b.HasIndex("AssessmentDomainDomainId");
-
                     b.HasIndex("ComplexityId");
+
+                    b.HasIndex("DomainId");
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.ToTable("AssessmentDomainLimitTrackers");
+                    b.ToTable("AssessmentDomainLimitTracker");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentLibrary", b =>
                 {
-                    b.Property<Guid>("LibraryId")
+                    b.Property<int>("LibraryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LibraryId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -374,16 +373,15 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("DomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DomainId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("LibraryName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -395,23 +393,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("DomainId");
 
-                    b.ToTable("AssessmentLibrary", (string)null);
+                    b.ToTable("AssessmentLibrary");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentQuestion", b =>
                 {
-                    b.Property<Guid>("AssessmentQuestionId")
+                    b.Property<int>("AssessmentQuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssessmentQuestionId"));
+
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("AssessmentOrder")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -431,8 +431,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("AssessmentQuestionId");
 
@@ -440,30 +440,31 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AssessmentQuestions");
+                    b.ToTable("AssessmentQuestion");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Client", b =>
                 {
-                    b.Property<Guid>("ClientId")
+                    b.Property<int>("ClientId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientId"));
 
                     b.Property<string>("ApplicationUri")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientConfigurationJson")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -479,8 +480,7 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("LoweredApplicationUri")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -490,27 +490,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("ClientId");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.ClientLogo", b =>
                 {
-                    b.Property<Guid>("ClientLogoId")
+                    b.Property<int>("ClientLogoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientLogoId"));
 
-                    b.Property<byte[]>("ClientLogoContent")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ClientLogoGuid")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientLogoGuid")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -532,24 +530,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("ClientLogoId");
 
-                    b.ToTable("ClientLogoes");
+                    b.ToTable("ClientLogo");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Compiler", b =>
                 {
-                    b.Property<Guid>("CompilerId")
+                    b.Property<int>("CompilerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompilerId"));
 
                     b.Property<string>("CompilerDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompilerName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -574,22 +573,23 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("CompilerId");
 
-                    b.ToTable("Compilers");
+                    b.ToTable("Compiler");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Complexity", b =>
                 {
-                    b.Property<Guid>("ComplexityId")
+                    b.Property<int>("ComplexityId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComplexityId"));
 
                     b.Property<string>("ComplexityLevel")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -611,17 +611,19 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("ComplexityId");
 
-                    b.ToTable("Complexities");
+                    b.ToTable("Complexity");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.EvidenceReport", b =>
                 {
-                    b.Property<Guid>("EvidenceReportId")
+                    b.Property<int>("EvidenceReportId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvidenceReportId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -633,9 +635,11 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Device")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FinishedAt")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -648,37 +652,40 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Screen_recording_url")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Screen_recording_url");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartedAt")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Test_taker_photo_url")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Test_taker_photo_url");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TrustScore")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("EvidenceReportId");
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.ToTable("EvidenceReports");
+                    b.ToTable("EvidenceReport");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.EvidenceReportDetail", b =>
                 {
-                    b.Property<Guid>("EvidenceReportDetailId")
+                    b.Property<int>("EvidenceReportDetailId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvidenceReportDetailId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -689,27 +696,25 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("EvidenceReportId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("EvidenceReportId")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("Evidence_iso_datetime")
-                        .HasColumnType("datetimeoffset")
-                        .HasColumnName("Evidence_iso_datetime");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Evidence_label")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Evidence_label");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Evidence_url")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Evidence_url");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("Is_violation")
-                        .HasColumnType("bit")
-                        .HasColumnName("Is_violation");
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -721,23 +726,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("EvidenceReportId");
 
-                    b.ToTable("EvidenceReportDetails");
+                    b.ToTable("EvidenceReportDetail");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.LibraryQuestion", b =>
                 {
-                    b.Property<Guid>("LibraryQuestionId")
+                    b.Property<int>("LibraryQuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LibraryQuestionId"));
+
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("AssessmentOrder")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -757,8 +764,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("LibraryQuestionId");
 
@@ -766,17 +773,19 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("LibraryQuestions");
+                    b.ToTable("LibraryQuestion");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.PrimaryDomain", b =>
                 {
-                    b.Property<Guid>("PrimaryDomainId")
+                    b.Property<int>("PrimaryDomainId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrimaryDomainId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -798,24 +807,24 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("PrimaryDomainName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryDomainShortName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PrimaryDomainId");
 
-                    b.ToTable("PrimaryDomains");
+                    b.ToTable("PrimaryDomain");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.ProctoringResult", b =>
                 {
-                    b.Property<Guid>("ProctoringResultId")
+                    b.Property<int>("ProctoringResultId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProctoringResultId"));
 
                     b.Property<string>("AveragesB1")
                         .IsRequired()
@@ -881,8 +890,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -951,20 +960,22 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("ProctoringResultId");
 
-                    b.ToTable("ProctoringResults");
+                    b.ToTable("ProctoringResult");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Question", b =>
                 {
-                    b.Property<Guid>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ComplexityId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ComplexityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -975,8 +986,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("DomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DomainId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -989,19 +1000,17 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("QuestionText")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuestionTextFormatted")
                         .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("QuestionTypeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("QuestionTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("QuestionUniqueId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("QuestionUniqueId")
+                        .HasColumnType("int");
 
                     b.HasKey("QuestionId");
 
@@ -1011,14 +1020,16 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("QuestionTypeId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Question");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.QuestionType", b =>
                 {
-                    b.Property<Guid>("TypeId")
+                    b.Property<int>("TypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeId"));
 
                     b.Property<bool?>("AllowMultipleSelection")
                         .HasColumnType("bit");
@@ -1026,8 +1037,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<bool?>("Coding")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1052,31 +1063,26 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("TypeDescription")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TypeId");
 
-                    b.ToTable("QuestionType", (string)null);
+                    b.ToTable("QuestionType");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("RoleId")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("Client1Id")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
 
-                    b.Property<Guid?>("Client2Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1110,32 +1116,30 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.HasIndex("Client1Id");
-
-                    b.HasIndex("Client2Id");
-
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessment", b =>
                 {
-                    b.Property<Guid>("UserAssessmentId")
+                    b.Property<int>("UserAssessmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentId"));
+
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Attempts")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1161,16 +1165,9 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<int?>("RunningScore")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SecondaryAssessmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SecondaryClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ShortUrl")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("StartDateTime")
                         .HasColumnType("datetimeoffset");
@@ -1187,11 +1184,11 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<int?>("TotalScore")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserAssessmentStatusId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentStatusId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentId");
 
@@ -1199,25 +1196,23 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("SecondaryAssessmentId");
-
-                    b.HasIndex("SecondaryClientId");
-
                     b.HasIndex("UserAssessmentStatusId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAssessments", (string)null);
+                    b.ToTable("UserAssessment");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentEvidenceDetail", b =>
                 {
-                    b.Property<Guid>("UserAssessmentEvidenceId")
+                    b.Property<int>("UserAssessmentEvidenceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentEvidenceId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1230,8 +1225,7 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("HashedTestAttemptId")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1244,27 +1238,28 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("TestAttemptId")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentEvidenceId");
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.ToTable("UserAssessmentEvidenceDetail", (string)null);
+                    b.ToTable("UserAssessmentEvidenceDetail");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentFile", b =>
                 {
-                    b.Property<Guid>("UserAssessmentFileId")
+                    b.Property<int>("UserAssessmentFileId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentFileId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1291,22 +1286,24 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentFileId");
 
-                    b.ToTable("UserAssessmentFiles");
+                    b.ToTable("UserAssessmentFile");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentIAI", b =>
                 {
-                    b.Property<Guid>("UserAssessmentIAIId")
+                    b.Property<int>("UserAssessmentIAIId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentIAIId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1320,8 +1317,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("JobRequirementId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("JobRequirementId")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -1329,14 +1326,14 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserIdIAI")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserIdIAI")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentIAIId");
 
@@ -1344,17 +1341,19 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAssessmentIAI", (string)null);
+                    b.ToTable("UserAssessmentIAI");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentPanel", b =>
                 {
-                    b.Property<Guid>("UserAssessmentPanelId")
+                    b.Property<int>("UserAssessmentPanelId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentPanelId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1377,32 +1376,34 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("PanelId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PanelId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserMasterUserId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentPanelId");
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserMasterUserId");
 
-                    b.ToTable("UserAssessmentPanel", (string)null);
+                    b.ToTable("UserAssessmentPanel");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentProctorResult", b =>
                 {
-                    b.Property<Guid>("UserAssessmentProctorResultId")
+                    b.Property<int>("UserAssessmentProctorResultId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentProctorResultId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1430,22 +1431,24 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentProctorResultId");
 
-                    b.ToTable("UserAssessmentProctorResults");
+                    b.ToTable("UserAssessmentProctorResult");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentStatu", b =>
                 {
-                    b.Property<Guid>("UserAssessmentStatusId")
+                    b.Property<int>("UserAssessmentStatusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentStatusId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1467,22 +1470,23 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Property<string>("UserAssessmentStatusName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserAssessmentStatusId");
 
-                    b.ToTable("UserAssessmentStatu", (string)null);
+                    b.ToTable("UserAssessmentStatu");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessmentTracker", b =>
                 {
-                    b.Property<Guid>("UserAssessmentTrackerId")
+                    b.Property<int>("UserAssessmentTrackerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAssessmentTrackerId"));
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1493,8 +1497,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("DomainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DomainId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1505,14 +1509,14 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool>("Presented")
+                    b.Property<bool?>("Presented")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserAssessmentTrackerId");
 
@@ -1522,20 +1526,22 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.ToTable("UserAssessmentTrackers");
+                    b.ToTable("UserAssessmentTracker");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserMaster", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1546,8 +1552,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("DeletedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("FailedPasswordAttemptCount")
-                        .HasColumnType("int");
+                    b.Property<DateTimeOffset>("FailedPasswordAttemptCount")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1584,6 +1590,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -1596,7 +1603,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<bool>("PasswordResetRequestActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Salt")
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -1608,23 +1615,25 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("UserMasters", (string)null);
+                    b.ToTable("UserMaster");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserResponse", b =>
                 {
-                    b.Property<Guid>("UserResponseId")
+                    b.Property<int>("UserResponseId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AnswerId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserResponseId"));
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1647,20 +1656,18 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("Remarks")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserAssessmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserAssessmentId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserResponseId");
 
@@ -1672,21 +1679,23 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasIndex("UserAssessmentId");
 
-                    b.ToTable("UserResponse", (string)null);
+                    b.ToTable("UserResponse");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserResponseFreeTextAnswer", b =>
                 {
-                    b.Property<Guid>("UserResponseFreeTextAnswerId")
+                    b.Property<int>("UserResponseFreeTextAnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserResponseFreeTextAnswerId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1709,25 +1718,27 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("UserResponseId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserResponseId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserResponseFreeTextAnswerId");
 
-                    b.ToTable("UserResponseFreeTextAnswers");
+                    b.ToTable("UserResponseFreeTextAnswer");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserResponseMultipleAnswer", b =>
                 {
-                    b.Property<Guid>("UserResponseAnswerId")
+                    b.Property<int>("UserResponseAnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AnswerId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserResponseAnswerId"));
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1747,40 +1758,31 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("PrimaryUserResponseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SecondaryUserResponseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserResponseId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserResponseId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserResponseAnswerId");
 
                     b.HasIndex("AnswerId");
 
-                    b.HasIndex("PrimaryUserResponseId");
+                    b.HasIndex("UserResponseId");
 
-                    b.HasIndex("SecondaryUserResponseId");
-
-                    b.ToTable("UserResponseMultipleAnswer", (string)null);
+                    b.ToTable("UserResponseMultipleAnswer");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserRole", b =>
                 {
-                    b.Property<Guid>("UserRoleId")
+                    b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("Client1Id")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserRoleId"));
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -1800,33 +1802,21 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("Role1Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserMasterUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserRoleId");
 
-                    b.HasIndex("Client1Id");
-
                     b.HasIndex("ClientId");
-
-                    b.HasIndex("Role1Id");
 
                     b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserMasterUserId");
-
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Answer", b =>
@@ -1842,32 +1832,17 @@ namespace MySkillTest.Persistence.Data.Migrations
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Assessment", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "PrimaryClient")
+                    b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("Assessments")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("FK_Assessment_Client");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "SecondaryClient")
-                        .WithMany("SecondaryAssessments")
-                        .HasForeignKey("SecondaryClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .HasConstraintName("FK_Assessment_Client1");
-
-                    b.Navigation("PrimaryClient");
-
-                    b.Navigation("SecondaryClient");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentDetail", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
-                        .WithMany("AssessmentDetails")
-                        .HasForeignKey("AssessmentDomainDomainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MySkillTest.Domain.Entities.Assessment", "Assessment")
                         .WithMany("AssessmentDetails")
                         .HasForeignKey("AssessmentId")
@@ -1877,7 +1852,13 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Complexity", "Complexity")
                         .WithMany("AssessmentDetails")
                         .HasForeignKey("ComplexityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
+                        .WithMany("AssessmentDetails")
+                        .HasForeignKey("DomainId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Assessment");
@@ -1891,13 +1872,11 @@ namespace MySkillTest.Persistence.Data.Migrations
                 {
                     b.HasOne("MySkillTest.Domain.Entities.Compiler", "Compiler")
                         .WithMany("AssessmentDomains")
-                        .HasForeignKey("CompilerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CompilerId");
 
                     b.HasOne("MySkillTest.Domain.Entities.PrimaryDomain", "PrimaryDomain")
                         .WithMany("AssessmentDomains")
-                        .HasForeignKey("PrimaryDomainId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("PrimaryDomainId");
 
                     b.Navigation("Compiler");
 
@@ -1906,16 +1885,16 @@ namespace MySkillTest.Persistence.Data.Migrations
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.AssessmentDomainLimitTracker", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
-                        .WithMany("AssessmentDomainLimitTrackers")
-                        .HasForeignKey("AssessmentDomainDomainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MySkillTest.Domain.Entities.Complexity", "Complexity")
                         .WithMany("AssessmentDomainLimitTrackers")
                         .HasForeignKey("ComplexityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
+                        .WithMany("AssessmentDomainLimitTrackers")
+                        .HasForeignKey("DomainId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessment", "UserAssessment")
@@ -1936,9 +1915,8 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
                         .WithMany("AssessmentLibraries")
                         .HasForeignKey("DomainId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_AssessmentLibrary_AssessmentDomain");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AssessmentDomain");
                 });
@@ -1967,7 +1945,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessment", "UserAssessment")
                         .WithMany("EvidenceReports")
                         .HasForeignKey("UserAssessmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("UserAssessment");
@@ -1978,7 +1956,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.EvidenceReport", "EvidenceReport")
                         .WithMany("EvidenceReportDetails")
                         .HasForeignKey("EvidenceReportId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("EvidenceReport");
@@ -1989,13 +1967,13 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Assessment", "Assessment")
                         .WithMany("LibraryQuestions")
                         .HasForeignKey("AssessmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Question", "Question")
                         .WithMany("LibraryQuestions")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Assessment");
@@ -2008,13 +1986,13 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Complexity", "Complexity")
                         .WithMany("Questions")
                         .HasForeignKey("ComplexityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
                         .WithMany("Questions")
                         .HasForeignKey("DomainId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.QuestionType", "QuestionType")
@@ -2032,66 +2010,32 @@ namespace MySkillTest.Persistence.Data.Migrations
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Role", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "Client1")
-                        .WithMany("Roles1")
-                        .HasForeignKey("Client1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Role_Client1");
-
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "Client2")
-                        .WithMany("Roles2")
-                        .HasForeignKey("Client2Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Role_Client2");
-
                     b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("Roles")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_Role_Client");
+                        .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
-
-                    b.Navigation("Client1");
-
-                    b.Navigation("Client2");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessment", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.Assessment", "PrimaryAssessment")
+                    b.HasOne("MySkillTest.Domain.Entities.Assessment", "Assessment")
                         .WithMany("UserAssessments")
                         .HasForeignKey("AssessmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_UserAssessment_Assessment");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("UserAssessments")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_UserAssessment_Client");
-
-                    b.HasOne("MySkillTest.Domain.Entities.Assessment", "SecondaryAssessment")
-                        .WithMany("SecondaryUserAssessments")
-                        .HasForeignKey("SecondaryAssessmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_UserAssessment_Assessment1");
-
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "SecondaryClient")
-                        .WithMany("SecondaryUserAssessments")
-                        .HasForeignKey("SecondaryClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_UserAssessment_Client1");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessmentStatu", "UserAssessmentStatu")
                         .WithMany("UserAssessments")
                         .HasForeignKey("UserAssessmentStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_UserAssessment_UserAssessmentStatu");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserMaster", "UserMaster")
                         .WithMany("UserAssessments")
@@ -2099,13 +2043,9 @@ namespace MySkillTest.Persistence.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Assessment");
+
                     b.Navigation("Client");
-
-                    b.Navigation("PrimaryAssessment");
-
-                    b.Navigation("SecondaryAssessment");
-
-                    b.Navigation("SecondaryClient");
 
                     b.Navigation("UserAssessmentStatu");
 
@@ -2128,7 +2068,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessment", "UserAssessment")
                         .WithMany("UserAssessmentIAIs")
                         .HasForeignKey("UserAssessmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserMaster", "UserMaster")
@@ -2152,7 +2092,7 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.HasOne("MySkillTest.Domain.Entities.UserMaster", "UserMaster")
                         .WithMany("UserAssessmentPanels")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserMasterUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2166,13 +2106,12 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.AssessmentDomain", "AssessmentDomain")
                         .WithMany("UserAssessmentTrackers")
                         .HasForeignKey("DomainId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Question", "Question")
                         .WithMany("UserAssessmentTrackers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessment", "UserAssessment")
                         .WithMany("UserAssessmentTrackers")
@@ -2192,7 +2131,7 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("UserMasters")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -2203,19 +2142,19 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Answer", "Answer")
                         .WithMany("UserResponses")
                         .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("UserResponses")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Question", "Question")
                         .WithMany("UserResponses")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserAssessment", "UserAssessment")
@@ -2238,71 +2177,43 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.HasOne("MySkillTest.Domain.Entities.Answer", "Answer")
                         .WithMany("UserResponseMultipleAnswers")
                         .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MySkillTest.Domain.Entities.UserResponse", "PrimaryUserResponse")
-                        .WithMany("PrimaryMultipleAnswers")
-                        .HasForeignKey("PrimaryUserResponseId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MySkillTest.Domain.Entities.UserResponse", "SecondaryUserResponse")
-                        .WithMany("SecondaryMultipleAnswers")
-                        .HasForeignKey("SecondaryUserResponseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("MySkillTest.Domain.Entities.UserResponse", "UserResponse")
+                        .WithMany("UserResponseMultipleAnswers")
+                        .HasForeignKey("UserResponseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Answer");
 
-                    b.Navigation("PrimaryUserResponse");
-
-                    b.Navigation("SecondaryUserResponse");
+                    b.Navigation("UserResponse");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserRole", b =>
                 {
-                    b.HasOne("MySkillTest.Domain.Entities.Client", "Client1")
-                        .WithMany("UserRoles1")
-                        .HasForeignKey("Client1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_UserRole_Client1");
-
                     b.HasOne("MySkillTest.Domain.Entities.Client", "Client")
                         .WithMany("UserRoles")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_UserRole_Client");
-
-                    b.HasOne("MySkillTest.Domain.Entities.Role", "Role1")
-                        .WithMany("UserRoles1")
-                        .HasForeignKey("Role1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_UserRole_Role1");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_UserRole_Role");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MySkillTest.Domain.Entities.UserMaster", "UserMaster")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MySkillTest.Domain.Entities.UserMaster", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserMasterUserId");
-
                     b.Navigation("Client");
 
-                    b.Navigation("Client1");
-
                     b.Navigation("Role");
-
-                    b.Navigation("Role1");
 
                     b.Navigation("UserMaster");
                 });
@@ -2321,8 +2232,6 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Navigation("AssessmentQuestions");
 
                     b.Navigation("LibraryQuestions");
-
-                    b.Navigation("SecondaryUserAssessments");
 
                     b.Navigation("UserAssessments");
                 });
@@ -2346,14 +2255,6 @@ namespace MySkillTest.Persistence.Data.Migrations
 
                     b.Navigation("Roles");
 
-                    b.Navigation("Roles1");
-
-                    b.Navigation("Roles2");
-
-                    b.Navigation("SecondaryAssessments");
-
-                    b.Navigation("SecondaryUserAssessments");
-
                     b.Navigation("UserAssessments");
 
                     b.Navigation("UserMasters");
@@ -2361,8 +2262,6 @@ namespace MySkillTest.Persistence.Data.Migrations
                     b.Navigation("UserResponses");
 
                     b.Navigation("UserRoles");
-
-                    b.Navigation("UserRoles1");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.Compiler", b =>
@@ -2410,8 +2309,6 @@ namespace MySkillTest.Persistence.Data.Migrations
             modelBuilder.Entity("MySkillTest.Domain.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
-
-                    b.Navigation("UserRoles1");
                 });
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserAssessment", b =>
@@ -2449,9 +2346,7 @@ namespace MySkillTest.Persistence.Data.Migrations
 
             modelBuilder.Entity("MySkillTest.Domain.Entities.UserResponse", b =>
                 {
-                    b.Navigation("PrimaryMultipleAnswers");
-
-                    b.Navigation("SecondaryMultipleAnswers");
+                    b.Navigation("UserResponseMultipleAnswers");
                 });
 #pragma warning restore 612, 618
         }

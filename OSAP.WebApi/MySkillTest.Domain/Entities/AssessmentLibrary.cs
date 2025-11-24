@@ -9,15 +9,17 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
+    [Table(nameof(AssessmentLibrary))]
     public class AssessmentLibrary:BaseModal
     {
-        public Guid LibraryId { get; set; }
-        public string LibraryName { get; set; } = string.Empty; 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int LibraryId { get; set; }
+        public string LibraryName { get; set; }
 
-        public Guid DomainId { get; set; }
-
-
-        // Navigation property
+        [ForeignKey(nameof(DomainId))]
         public virtual AssessmentDomain AssessmentDomain { get; set; }
+        public int DomainId { get; set; }
+
     }
 }

@@ -1,24 +1,28 @@
-﻿using System;
+﻿using MySkillTest.Domain.Domain.Shared;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
+    [Table(nameof(UserResponseMultipleAnswer))]
     public class UserResponseMultipleAnswer:BaseModal
     {
-        public Guid UserResponseAnswerId { get; set; }
-        public Guid? PrimaryUserResponseId { get; set; }
-        public Guid? SecondaryUserResponseId { get; set; }
-        public Guid UserResponseId { get; set; }
-        public Guid AnswerId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserResponseAnswerId { get; set; }
 
+        [ForeignKey(nameof(AnswerId))]
         public virtual Answer Answer { get; set; }
+        public int AnswerId { get; set; }
 
-        public virtual UserResponse? PrimaryUserResponse { get; set; }
-        public virtual UserResponse? SecondaryUserResponse { get; set; }
+        [ForeignKey(nameof(UserResponseId))]
+        public virtual UserResponse UserResponse { get; set; }
+        public int UserResponseId { get; set; }
+
     }
 }

@@ -40,7 +40,6 @@ namespace MySkillTest.Application.Services
             }
             var role = new Role
             {
-                RoleId = Guid.NewGuid(),
                 ClientId = model.ClientId,
                 RoleName = model.RoleName,
                 Description = model.Description,
@@ -72,7 +71,7 @@ namespace MySkillTest.Application.Services
         }
 
 
-        public Task<ApiResponse<RoleResponseModel>> DeleteRoleAsync(Guid id)
+        public Task<ApiResponse<RoleResponseModel>> DeleteRoleAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -107,7 +106,7 @@ namespace MySkillTest.Application.Services
             }
         }
 
-        public async Task<ApiResponse<RoleResponseModel>> GetRoleByIdAsync(Guid id)
+        public async Task<ApiResponse<RoleResponseModel>> GetRoleByIdAsync(int id)
         {
             var role = await roleRepository.GetByIdAsync(id);
 

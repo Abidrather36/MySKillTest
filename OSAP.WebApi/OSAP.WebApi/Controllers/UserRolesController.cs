@@ -47,7 +47,7 @@ namespace MySkillTest.WebApi.Controllers
 
   
         [HttpGet("getUserRoleById/{id:guid}")]
-        public async Task<IActionResult> GetUserRoleById(Guid id)
+        public async Task<IActionResult> GetUserRoleById(int id)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace MySkillTest.WebApi.Controllers
 
 
         [HttpDelete("deleteUserRolebyId/{id:guid}")]
-        public async Task<IActionResult> DeleteUserRole(Guid id)
+        public async Task<IActionResult> DeleteUserRole(int id)
         {
             try
             {

@@ -22,7 +22,7 @@ namespace MySkillTest.Persistence.Repositories
             return registeredCompanies;
         }
 
-        public async Task<RegisteredCompany> GetRegisteredCompanyById(Guid registeredCompanyId)
+        public async Task<RegisteredCompany> GetRegisteredCompanyById(int registeredCompanyId)
         {
             return await context.RegisteredCompanies.FindAsync(registeredCompanyId);
         }
@@ -54,7 +54,7 @@ namespace MySkillTest.Persistence.Repositories
 
         public async Task<int> UpdateRegisteredCompany(RegisteredCompany model)
         {
-            context.Update(model);
+            context.RegisteredCompanies.Update(model);
             return await context.SaveChangesAsync();
 
         }

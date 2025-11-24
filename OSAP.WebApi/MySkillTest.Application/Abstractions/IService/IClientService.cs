@@ -15,10 +15,10 @@ namespace MySkillTest.Application.Abstractions.IService
     public interface IClientService
     {
         Task<ApiResponse<IEnumerable<ClientResponseModel>>> GetAllClients();
-        Task<ApiResponse<ClientResponseModel>> GetClientById(Guid clientId);
+        Task<ApiResponse<ClientResponseModel>> GetClientById(int clientId);
         Task<ApiResponse<ClientResponseModel>> AddClient(ClientRequestModel model);
         Task<ApiResponse<ClientResponseModel>> UpdateClient(ClientUpdateModel model);
-        Task<ApiResponse<ClientResponseModel>> DeleteClient(Guid clientId);
+        Task<ApiResponse<ClientResponseModel>> DeleteClient(int clientId);
     }
 
 }

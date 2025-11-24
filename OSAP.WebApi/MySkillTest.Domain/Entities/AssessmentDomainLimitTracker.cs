@@ -1,43 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MySkillTest.Domain.Domain.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities;
-public partial class AssessmentDomainLimitTracker : BaseModal
+
+[Table(nameof(AssessmentDomainLimitTracker))]
+public class AssessmentDomainLimitTracker:BaseModal
 {
-    //public Guid AssessmentDomainLimitTrackerId { get; set; }
-    //public int AssessmentDomainLimit { get; set; }
-    //public int QuestionsPresentedCount { get; set; }
-
-    //public Guid UserAssessmentId { get; set; }
-    //public Guid DomainId { get; set; }
-    //public Guid ComplexityId { get; set; }
-
-    //public AssessmentDomain? AssessmentDomain { get; set; }
-    //public  Complexity? Complexity { get; set; }
-    //public UserAssessment? UserAssessment { get; set; }
-
-
-
-    public Guid AssessmentDomainLimitTrackerId { get; set; }
-
-    public Guid UserAssessmentId { get; set; }
-
-    public Guid DomainId { get; set; }
-
-    public Guid ComplexityId { get; set; }
-
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int AssessmentDomainLimitTrackerId { get; set; }
     public int? AssessmentDomainLimit { get; set; }
     public int? QuestionsPresentedCount { get; set; }
-
-    // Navigation properties
+  
+    [ForeignKey(nameof(DomainId))]
     public virtual AssessmentDomain AssessmentDomain { get; set; }
+    public int DomainId { get; set; }
+
+    [ForeignKey(nameof(ComplexityId))]
     public virtual Complexity Complexity { get; set; }
+    public int ComplexityId { get; set; }
+
+    [ForeignKey(nameof(UserAssessmentId))]
     public virtual UserAssessment UserAssessment { get; set; }
+    public int UserAssessmentId { get; set; }
+
 }
+
 

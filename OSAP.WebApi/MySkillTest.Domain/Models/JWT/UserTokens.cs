@@ -34,7 +34,7 @@ namespace salesTrack.Domain.Models.JWT
                 get;
                 set;
             }
-            public Guid? Id
+            public int? Id
             {
                 get;
                 set;

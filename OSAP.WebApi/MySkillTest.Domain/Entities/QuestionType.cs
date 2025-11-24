@@ -1,26 +1,25 @@
-﻿using System;
+﻿using MySkillTest.Domain.Domain.Shared;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
-    public class QuestionType:BaseModal
+    [Table(nameof(QuestionType))]
+    public class QuestionType : BaseModal
     {
-        public QuestionType()
-        {
-            this.Questions = new HashSet<Question>();
-        }
-        public Guid TypeId { get; set; }
-        public string TypeDescription { get; set; } = string.Empty; 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int TypeId { get; set; }
+        public string TypeDescription { get; set; }
         public bool? MultipleChoice { get; set; }
         public bool? Coding { get; set; }
         public bool? AllowMultipleSelection { get; set; }
 
-
-        //Navigation //
         public virtual ICollection<Question> Questions { get; set; }
     }
 }

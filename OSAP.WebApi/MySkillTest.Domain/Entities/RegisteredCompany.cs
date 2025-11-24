@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,12 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Domain
 {
+    [Table(nameof(RegisteredCompany))]
     public class RegisteredCompany:BaseModal
     {
-
-        public Guid RegisteredCompanyId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public  int RegisteredCompanyId { get; set; }
 
         public string CompanyName { get; set; } = string.Empty;
 

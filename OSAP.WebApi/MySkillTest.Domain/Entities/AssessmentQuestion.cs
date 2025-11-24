@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,22 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
-    public partial class AssessmentQuestion : BaseModal
+    [Table(nameof(AssessmentQuestion))]
+    public class AssessmentQuestion:BaseModal
     {
-        public Guid AssessmentQuestionId { get; set; }
-        public Guid AssessmentId { get; set; }
-        public Guid QuestionId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int AssessmentQuestionId { get; set; }
         public int AssessmentOrder { get; set; }
 
-
-        // Navigation properties
+        [ForeignKey(nameof(AssessmentId))]
         public virtual Assessment Assessment { get; set; }
+        public int AssessmentId { get; set; }
+
+        [ForeignKey(nameof(QuestionId))]
         public virtual Question Question { get; set; }
+        public int QuestionId { get; set; }
+
     }
 
 }

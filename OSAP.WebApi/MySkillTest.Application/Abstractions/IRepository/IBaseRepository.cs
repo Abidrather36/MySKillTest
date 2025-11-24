@@ -16,7 +16,7 @@ namespace MySkillTest.Application.Abstractions.IRepository
         Task<int> DeleteAsync(T model);
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> FindByAsync(Expression<Func<T, bool>> expression);
-        Task<T?> GetByIdAsync(Guid? Id);
+        Task<T?> GetByIdAsync(int Id);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
         Task<bool> IsExistsAsync(Expression<Func<T, bool>> expression);
         //Task<IEnumerable<string>> GetEmailsAsync(List<string> emails);

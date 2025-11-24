@@ -32,12 +32,10 @@ namespace MySkillTest.Application.Services
 
                 UserRole UserRole = new UserRole
                 {
-                    UserRoleId = Guid.NewGuid(),
 
                     UserId = userRoleModel.UserId,
                     RoleId = userRoleModel.RoleId,
                     ClientId = userRoleModel.ClientId,
-                    CreatedBy = userRoleModel.CreatedBy ?? Guid.Empty,
                     CreatedDate = userRoleModel.CreatedDate ?? DateTimeOffset.UtcNow
                 };
                 var result = await userRoleRepository.AddUserRole(UserRole);
@@ -62,7 +60,7 @@ namespace MySkillTest.Application.Services
             }
         }
 
-        public async Task<ApiResponse<UserRoleResponseModel>> DeleteUserRoleAsync(Guid id)
+        public async Task<ApiResponse<UserRoleResponseModel>> DeleteUserRoleAsync(int id)
         {
             var userRole = await userRoleRepository.GetByIdAsync(id);
             if (userRole == null)
@@ -128,7 +126,7 @@ namespace MySkillTest.Application.Services
             }
         }
 
-        public async Task<ApiResponse<UserRoleResponseModel>>? GetUserRoleByIdAsync(Guid id)
+        public async Task<ApiResponse<UserRoleResponseModel>>? GetUserRoleByIdAsync(int id)
         {
             try
             {

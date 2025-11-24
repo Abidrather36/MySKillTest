@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySkillTest.Domain.Domain.Shared;
+﻿using MySkillTest.Domain.Domain.Shared;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MySkillTest.Domain.Entities
 {
+    [Table(nameof(ClientLogo))]
     public class ClientLogo:BaseModal
     {
-        public Guid ClientLogoId { get; set; }
-        public Guid ClientId { get; set; }
-        public Guid ClientLogoGuid { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ClientLogoId { get; set; }
+        public int ClientId { get; set; }
+        public int ClientLogoGuid { get; set; }
     
-        public byte[] ClientLogoContent { get; set; }
+        //public byte[] ClientLogoContent { get; set; }
     }
 
 }

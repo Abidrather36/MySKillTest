@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MySkillTest.Domain.Domain.Shared;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
-    public class EvidenceReportDetail: BaseModal
+    [Table(nameof(EvidenceReportDetail))]
+    public  class EvidenceReportDetail:BaseModal
     {
-
-        public Guid EvidenceReportDetailId { get; set; }
-        public Guid EvidenceReportId { get; set; }
-        public string? Evidence_label { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int EvidenceReportDetailId { get; set; }
+        public string Evidence_label { get; set; }
         public DateTimeOffset? Evidence_iso_datetime { get; set; }
         public bool? Is_violation { get; set; }
-        public string? Evidence_url { get; set; }
+        public string Evidence_url { get; set; }
 
-        //Navigation //
-        public virtual EvidenceReport? EvidenceReport { get; set; }
+        [ForeignKey(nameof(EvidenceReportId))]
+        public virtual EvidenceReport EvidenceReport { get; set; }
+        public int EvidenceReportId { get; set; }
+
     }
 }

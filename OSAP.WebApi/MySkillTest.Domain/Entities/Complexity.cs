@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,15 +9,12 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities;
 
+[Table(nameof(Complexity))]
 public  class Complexity:BaseModal
 {
-    public Complexity()
-    {
-        this.AssessmentDetails = new HashSet<AssessmentDetail>();
-        this.AssessmentDomainLimitTrackers = new HashSet<AssessmentDomainLimitTracker>();
-        this.Questions = new HashSet<Question>();
-    }
-    public Guid ComplexityId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ComplexityId { get; set; }
     public string ComplexityLevel { get; set; }=string.Empty;
 
     ///Navigation//

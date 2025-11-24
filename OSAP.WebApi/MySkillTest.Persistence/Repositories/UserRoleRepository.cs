@@ -18,14 +18,14 @@ namespace MySkillTest.Persistence.Repositories
             var userRoles = await context.UserRoles.ToListAsync();
             return userRoles;
         }
-        public async Task<UserRole?> GetUserRole(Guid userId, Guid? roleId, Guid? clientId)
+        public async Task<UserRole?> GetUserRole(int userId, int? roleId, int? clientId)
         {
             return await context.UserRoles
                 .FirstOrDefaultAsync(ur => ur.UserId == userId
                                         && ur.RoleId == roleId
                                         && ur.ClientId == clientId);
         }
-        public async Task<UserRole> GetUserRoleById(Guid userRoleId)
+        public async Task<UserRole> GetUserRoleById(int userRoleId)
         {
             return await this.context.UserRoles.FindAsync(userRoleId);
         }
@@ -48,7 +48,7 @@ namespace MySkillTest.Persistence.Repositories
           
         }
 
-        public async Task<UserRole> DeleteUserRole(Guid userRoleId)
+        public async Task<UserRole> DeleteUserRole(int userRoleId)
         {
             var userRole = await context.Set<UserRole>().FindAsync(userRoleId);
             if (userRole == null)
@@ -60,7 +60,7 @@ namespace MySkillTest.Persistence.Repositories
             return userRole;
         }
 
-        public async Task<IEnumerable<UserRole>> GetUserRoleByUserId(Guid userId)
+        public async Task<IEnumerable<UserRole>> GetUserRoleByUserId(int userId)
         {
             var userRoles = await context.UserRoles.Where(u => u.UserId == userId).ToListAsync();
             return userRoles;

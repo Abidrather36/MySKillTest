@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MySkillTest.Application.Abstractions.IService;
 using MySkillTest.Application.Common;
 using MySkillTest.Domain.Models.Request;
@@ -6,6 +7,7 @@ using OSAP.WebApi.Models;
 
 namespace MySkillTest.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RegisterCompanyController : ControllerBase
@@ -45,8 +47,8 @@ namespace MySkillTest.WebApi.Controllers
                 throw new Exception(ex.Message);
             }
         }
-        [HttpGet("getRegistered-CompanyById/{id:guid}")]
-        public async Task<IActionResult> GetRegisteredCompanyById(Guid id)
+        [HttpGet("getRegistered-CompanyById/{id:int}")]
+        public async Task<IActionResult> GetRegisteredCompanyById(int id)
         {
             try
             {
@@ -75,8 +77,8 @@ namespace MySkillTest.WebApi.Controllers
             }
         }
 
-        [HttpDelete("delete-Company/{id:guid}")]
-        public async Task<IActionResult> DeleteRegisteredCompany(Guid id)
+        [HttpDelete("delete-Company/{id:int}")]
+        public async Task<IActionResult> DeleteRegisteredCompany(int id)
         {
 
             try

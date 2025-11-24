@@ -25,7 +25,7 @@ namespace MySkillTest.Application.Services
             this.userRepository = userRepository;
         }
 
-        public Task<ApiResponse<int>> DeleteRegisteredCompanyAsync(Guid id)
+        public Task<ApiResponse<int>> DeleteRegisteredCompanyAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,7 @@ namespace MySkillTest.Application.Services
             return ApiResponse<IEnumerable<RegisteredCompanyModel>>.SuccessResponse(res, $"{res.Count()} Companies found", HttpStatusCodes.OK); ;
         }
 
-        public async Task<ApiResponse<RegisteredCompanyModel>> GetRegisteredCompanyByIdAsync(Guid id)
+        public async Task<ApiResponse<RegisteredCompanyModel>> GetRegisteredCompanyByIdAsync(int id)
         {
             var regCompany = await registeredCompanyRepository.GetRegisteredCompanyById(id);
             if (regCompany == null)
@@ -81,12 +81,10 @@ namespace MySkillTest.Application.Services
 
                     RegisteredCompany registeredCompany = new RegisteredCompany()
                     {
-                        RegisteredCompanyId = Guid.NewGuid(),
                         EmailAddress = model.EmailAddress,
                         CompanyName = model.CompanyName,
                         MobileNumber = model.MobileNumber.ToString(),
                         Country = model.Country,
-                        CreatedBy = Guid.NewGuid(),
                         CreatedDate = DateTimeOffset.Now
 
                     };
@@ -110,7 +108,7 @@ namespace MySkillTest.Application.Services
 
 
 
-        public async Task<ApiResponse<RegisterCompanyResponse>> DeleteRegisteredCompanyByIdAsync(Guid id)
+        public async Task<ApiResponse<RegisterCompanyResponse>> DeleteRegisteredCompanyByIdAsync(int id)
         {
             var company = await registeredCompanyRepository.GetRegisteredCompanyById(id);
 
