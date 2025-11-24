@@ -2,15 +2,15 @@
 
 #nullable disable
 
-namespace MySkillTest.Persistence.Data.Migrations
+namespace MySkillTest.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class fixedCascade : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-             
+
         }
 
         /// <inheritdoc />

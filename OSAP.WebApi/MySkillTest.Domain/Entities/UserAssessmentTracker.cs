@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,25 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
-    public partial class UserAssessmentTracker : BaseModal
+    [Table(nameof(UserAssessmentTracker))]
+    public class UserAssessmentTracker:BaseModal
     {
-        public Guid UserAssessmentTrackerId { get; set; }
-        public Guid DomainId { get; set; }
-        public Guid UserAssessmentId { get; set; }
-        public Guid? QuestionId { get; set; }
-        public bool Presented { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserAssessmentTrackerId { get; set; }
+        public bool? Presented { get; set; }
 
-        // Navigation properties
-        public virtual AssessmentDomain AssessmentDomain { get; set; } = null!;
-        public virtual Question? Question { get; set; }
-        public virtual UserAssessment UserAssessment { get; set; } = null!;
+        [ForeignKey(nameof(DomainId))]
+        public virtual AssessmentDomain AssessmentDomain { get; set; }
+        public int DomainId { get; set; }
+
+        [ForeignKey(nameof(QuestionId))]
+        public virtual Question Question { get; set; }
+        public int? QuestionId { get; set; }
+
+        [ForeignKey(nameof(UserAssessmentId))]
+        public virtual UserAssessment UserAssessment { get; set; }
+        public int UserAssessmentId { get; set; }
+
     }
-
 }

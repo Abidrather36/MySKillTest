@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -8,28 +9,35 @@ using MySkillTest.Domain.Domain.Shared;
 
 namespace MySkillTest.Domain.Entities
 {
-    public partial class UserResponse:BaseModal
+    [Table(nameof(UserResponse))]
+    public class UserResponse:BaseModal
     {
-        public UserResponse()
-        {
-            PrimaryMultipleAnswers = new HashSet<UserResponseMultipleAnswer>();
-            SecondaryMultipleAnswers = new HashSet<UserResponseMultipleAnswer>();
-        }
-        public Guid UserResponseId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserResponseId { get; set; }
         public bool? IsCorrect { get; set; }
         public string Remarks { get; set; }=string.Empty;   
         public int? Rating { get; set; }
-        public Guid UserAssessmentId { get; set; }
-        public Guid ClientId { get; set; }
-        public Guid QuestionId { get; set; }
-        public Guid AnswerId { get; set; }
+
 
         //Navigation //
+
+        [ForeignKey(nameof(AnswerId))]
         public virtual Answer? Answer { get; set; }
+        public int AnswerId { get; set; }
+
+        [ForeignKey(nameof(ClientId))]
         public virtual Client? Client { get; set; }
+        public int ClientId { get; set; }
+
+        [ForeignKey(nameof(QuestionId))]
         public virtual Question? Question { get; set; }
+        public int QuestionId { get; set; }
+
+        [ForeignKey(nameof(UserAssessmentId))]
         public virtual UserAssessment? UserAssessment { get; set; }
-        public virtual ICollection<UserResponseMultipleAnswer> PrimaryMultipleAnswers { get; set; }
-        public virtual ICollection<UserResponseMultipleAnswer> SecondaryMultipleAnswers { get; set; }
+        public int UserAssessmentId { get; set; }
+
+        public virtual ICollection<UserResponseMultipleAnswer> UserResponseMultipleAnswers { get; set; }
     }
 }

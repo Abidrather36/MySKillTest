@@ -25,7 +25,7 @@ namespace MySkillTest.Persistence.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public Task<Role> DeleteRoleAsync(Guid id)
+        public Task<Role> DeleteRoleAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -36,7 +36,7 @@ namespace MySkillTest.Persistence.Repositories
             return roles;
         }
 
-        public async Task<Role> GetRoleByIdAsync(Guid id)
+        public async Task<Role> GetRoleByIdAsync(int id)
         {
             var role = await context.Roles.FindAsync(id);
             return role;
@@ -47,14 +47,14 @@ namespace MySkillTest.Persistence.Repositories
             await Task.Run(() => context.Roles.Update(role));
             return await context.SaveChangesAsync();
         }
-        public async Task<bool> RoleExistsAsync(Guid clientId, string roleName)
+        public async Task<bool> RoleExistsAsync(int? clientId, string roleName)
         {
             var loweredRoleName = roleName.ToLower();
             var existingRole = await GetRoleByNameAsync(clientId, loweredRoleName);
             return existingRole != null;
         }
 
-        public async Task<Role> GetRoleByNameAsync(Guid clientId, string loweredRoleName)
+        public async Task<Role> GetRoleByNameAsync(int? clientId, string loweredRoleName)
         {
             return await context.Roles
                 .FirstOrDefaultAsync(r => r.ClientId == clientId && r.LoweredRoleName == loweredRoleName);

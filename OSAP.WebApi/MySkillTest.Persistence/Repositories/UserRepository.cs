@@ -25,7 +25,7 @@ namespace MySkillTest.Persistence.Repositories
             return  await context.SaveChangesAsync();
         }
 
-        public Task<UserMaster> DeleteUser(Guid clietnId)
+        public Task<UserMaster> DeleteUser(int clietnId)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace MySkillTest.Persistence.Repositories
            return await context.UserMasters.Include(u => u.Client).ToListAsync();
         }
 
-        public async Task<IEnumerable<UserMaster>> GetCompanyUsersByClientId(Guid clientId)
+        public async Task<IEnumerable<UserMaster>> GetCompanyUsersByClientId(int clientId)
         {
             return await context.UserMasters
                 .Where(u => u.Client.ClientId == clientId)
@@ -43,7 +43,7 @@ namespace MySkillTest.Persistence.Repositories
         }
 
 
-        public async  Task<UserMaster> GetUserById(Guid UserId)
+        public async  Task<UserMaster> GetUserById(int UserId)
         {
           return await context.UserMasters.FindAsync(UserId);
         }

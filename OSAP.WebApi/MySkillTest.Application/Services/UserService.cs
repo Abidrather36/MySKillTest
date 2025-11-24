@@ -122,10 +122,9 @@ namespace MySkillTest.Application.Services
 
             var userMaster = new UserMaster
             {
-                UserId = Guid.NewGuid(),
                 UserName = model.UserName,
                 Password = hashedPassword,
-                Salt = salt,
+                //Salt = salt,
                 LoweredUserName = model.UserName.ToLower(),
                 LastActivityDate = DateTimeOffset.UtcNow,
                 LastLoginDate = DateTimeOffset.UtcNow,
@@ -134,7 +133,7 @@ namespace MySkillTest.Application.Services
                 PasswordFormat = 1,
                 //CreatedBy = authUserId,
                 ClientId = model.ClientId,
-                FailedPasswordAttemptCount = 0,
+                FailedPasswordAttemptCount = default,
                 PasswordResetRequestActive = false,
                 IsVerified = false,
                 IsLockedOut = false,
@@ -152,7 +151,7 @@ namespace MySkillTest.Application.Services
 
             var userRole = new UserRole
             {
-                UserRoleId = Guid.NewGuid(),
+              
                 RoleId = model.RoleId,
                 UserId = userMaster.UserId,
                 ClientId = model.ClientId,
@@ -196,7 +195,7 @@ namespace MySkillTest.Application.Services
             );
         }
 
-        public Task<ApiResponse<bool>> DeleteUser(Guid id)
+        public Task<ApiResponse<bool>> DeleteUser(int id)
         {
             throw new NotImplementedException();
         }
@@ -222,7 +221,7 @@ namespace MySkillTest.Application.Services
         }
 
 
-        public async Task<ApiResponse<UserMasterModel>> GetUserById(Guid id)
+        public async Task<ApiResponse<UserMasterModel>> GetUserById(int id)
         {
            var user=await userRepository.GetUserById(id);
             if(user != null)
@@ -249,7 +248,6 @@ namespace MySkillTest.Application.Services
                     return ApiResponse<UserMasterResponseModel>.ErrorResponse("No nsuch User or Null", HttpStatusCodes.OK);
                 }
                 user.MobileNo = model.MobileNo;
-                user.ModifiedBy = model.ModifiedBy;
                 user.IsActive = model.IsActive ?? user.IsActive;
 
                 var isUpdatedUser = await userRepository.UpdateUser(user);

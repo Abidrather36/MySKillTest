@@ -10,13 +10,13 @@ namespace MySkillTest.Application.Abstractions.IRepository
     public interface IUserRepository:IBaseRepository<UserMaster>
     {
         Task<IEnumerable<UserMaster>> GetAllUsers();
-        Task<UserMaster> GetUserById(Guid UserId);
+        Task<UserMaster> GetUserById(int UserId);
         Task<int> AddUser(UserMaster User);
         Task<int> UpdateUser(UserMaster User);
-        Task<UserMaster> DeleteUser(Guid clietnId);
+        Task<UserMaster> DeleteUser(int clietnId);
         Task<UserMaster?> GetUserByUserName(string UserName);
 
-        Task<IEnumerable<UserMaster>> GetCompanyUsersByClientId(Guid ClientId);
+        Task<IEnumerable<UserMaster>> GetCompanyUsersByClientId(int ClientId);
 
         //Task<User> ChangePassword(int UserId, string NewPassword);
     }

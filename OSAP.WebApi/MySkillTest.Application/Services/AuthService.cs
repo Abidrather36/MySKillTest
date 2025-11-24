@@ -33,12 +33,12 @@ namespace MySkillTest.Application.Services
                 return ApiResponse<string>.ErrorResponse(ApiMessages.Auth.InvalidCredential, HttpStatusCodes.BadRequest);
 
             }
-            if (!AppEncryption.ComparePassword(user.Password, model.OldPassword, user.Salt))
+            if (!AppEncryption.ComparePassword(user.Password, model.OldPassword, default))
             {
                 return ApiResponse<string>.ErrorResponse(ApiMessages.Auth.IncorrectOldPassword, HttpStatusCodes.BadRequest);
 
             }
-            user.Password = AppEncryption.CreatePassword(model.NewPassword, user.Salt);
+            user.Password = AppEncryption.CreatePassword(model.NewPassword, default);
             var updatedUserPassword = await authRepository.UpdateAsync(user);
             if (updatedUserPassword > 0)
                 return ApiResponse<string>.SuccessResponse(default,ApiMessages.Auth.PasswordChangedSuccess, HttpStatusCodes.Created);
@@ -52,6 +52,7 @@ namespace MySkillTest.Application.Services
             if (user is null)
                 return ApiResponse<string>.ErrorResponse(ApiMessages.NotFound, HttpStatusCodes.BadRequest);
 
+            return default;
         }
 
         public async Task<ApiResponse<LoginResponseModel>> Login(LoginRequestModel model)
@@ -65,7 +66,7 @@ namespace MySkillTest.Application.Services
                 }
                 //if (!AppEncryption.ComparePassword(user.Password!, model.Password!, user.Salt!))
                 //    return ApiResponse<LoginResponseModel>.ErrorResponse(ApiMessages.Auth.InvalidCredential, HttpStatusCodes.BadRequest);
-                if (!AppEncryption.ComparePassword(user.Password!, model.Password!, user.Salt!))
+                if (!AppEncryption.ComparePassword(user.Password!, model.Password!, default))
                     return ApiResponse<LoginResponseModel>.ErrorResponse(ApiMessages.Auth.InvalidCredential, HttpStatusCodes.BadRequest);
                 var userTokens = jwtProvider.GenerateToken(user);
 

@@ -23,7 +23,6 @@ namespace MySkillTest.Application.Services
             {
                 var entity = new Client
                 {
-                    ClientId = Guid.NewGuid(),
                     ClientName = model.ClientName,
                     ClientConfigurationJson = model.ClientConfigurationJson,
                     CreatedBy = model.CreatedBy,
@@ -41,7 +40,6 @@ namespace MySkillTest.Application.Services
                         ClientId = entity.ClientId,
                         ClientName = entity.ClientName,
                         ClientConfigurationJson = entity.ClientConfigurationJson,
-                        CreatedBy = entity.CreatedBy,
                         CreatedDate = (DateTimeOffset?)entity.CreatedDate ?? DateTimeOffset.UtcNow,
                         IsActive=entity.IsActive
 
@@ -69,7 +67,6 @@ namespace MySkillTest.Application.Services
                 ClientId = x.ClientId,
                 ClientName = x.ClientName,
                 ClientConfigurationJson = x.ClientConfigurationJson,
-                CreatedBy = x.CreatedBy,
                 LoweredApplicationUri = x.LoweredApplicationUri,
                 IsActive=x.IsActive
             });
@@ -78,7 +75,7 @@ namespace MySkillTest.Application.Services
         }
 
 
-        public async Task<ApiResponse<ClientResponseModel>> GetClientById(Guid clientId)
+        public async Task<ApiResponse<ClientResponseModel>> GetClientById(int clientId)
         {
             var client = await clientRepository.GetClientById(clientId);
             if (client is null)
@@ -115,7 +112,7 @@ namespace MySkillTest.Application.Services
             }
             return ApiResponse<ClientResponseModel>.ErrorResponse(ApiMessages.TechnicalError, HttpStatusCodes.BadRequest);
         }
-        public async Task<ApiResponse<ClientResponseModel>> DeleteClient(Guid clientId)
+        public async Task<ApiResponse<ClientResponseModel>> DeleteClient(int clientId)
         {
            var client=await clientRepository.GetByIdAsync(clientId);
             if(client is null)

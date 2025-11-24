@@ -5,11 +5,11 @@ namespace MySkillTest.Application.Abstractions.IRepository
     public interface IRoleRepository:IBaseRepository<Role>
     {
         Task<IEnumerable<Role>> GetAllRolesAsync();
-        Task<Role> GetRoleByIdAsync(Guid id);
+        Task<Role> GetRoleByIdAsync(int id);
         Task<int> AddRoleAsync(Role roleModel);
-        Task<Role> DeleteRoleAsync(Guid id);
+        Task<Role> DeleteRoleAsync(int id);
         Task<int> UpdateRole(Role role);
-        Task<Role> GetRoleByNameAsync(Guid clientId, string loweredRoleName);
-        Task<bool> RoleExistsAsync(Guid clientId, string roleName);
+        Task<Role> GetRoleByNameAsync(int? clientId, string loweredRoleName);
+        Task<bool> RoleExistsAsync(int? clientId, string roleName);
     }
 }

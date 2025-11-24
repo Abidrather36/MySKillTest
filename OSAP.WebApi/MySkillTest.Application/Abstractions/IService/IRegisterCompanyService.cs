@@ -12,9 +12,9 @@ namespace MySkillTest.Application.Abstractions.IService
     public interface IRegisterCompanyService
     {
         Task<ApiResponse<IEnumerable<RegisteredCompanyModel>>> GetRegisteredCompaniesAsync();
-        Task<ApiResponse<RegisteredCompanyModel>> GetRegisteredCompanyByIdAsync(Guid id);
+        Task<ApiResponse<RegisteredCompanyModel>> GetRegisteredCompanyByIdAsync(int id);
         Task<ApiResponse<UpdateRegisteredCompanyModel>> UpdateRegisteredCompanyAsync(UpdateRegisteredCompanyModel model);
         Task<ApiResponse<RegisteredCompanyModel>> RegisterCompanyAsync(RegisteredCompanyModel model);
-        Task<ApiResponse<RegisterCompanyResponse>> DeleteRegisteredCompanyByIdAsync(Guid id);
+        Task<ApiResponse<RegisterCompanyResponse>> DeleteRegisteredCompanyByIdAsync(int id);
     }
 }

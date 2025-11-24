@@ -8,10 +8,10 @@ namespace MySkillTest.Application.Abstractions.IService
     public interface IRoleService
     {
         Task<ApiResponse<IEnumerable<RoleResponseModel>>> GetAllRolesAsync();
-        Task<ApiResponse<RoleResponseModel>> GetRoleByIdAsync(Guid id);
+        Task<ApiResponse<RoleResponseModel>> GetRoleByIdAsync(int id);
         Task<ApiResponse<RoleResponseModel>> AddRoleAsync(RoleRequestModel model);
         Task<ApiResponse<RoleResponseModel>> UpdateRoleAsync(RoleUpdateModel model);
-        Task<ApiResponse<RoleResponseModel>> DeleteRoleAsync(Guid id);
+        Task<ApiResponse<RoleResponseModel>> DeleteRoleAsync(int id);
     }
 
 }

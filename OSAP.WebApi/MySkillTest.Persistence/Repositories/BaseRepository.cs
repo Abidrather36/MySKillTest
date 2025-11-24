@@ -35,7 +35,7 @@ namespace MySkillTest.Persistence.Repositories
             return await Task.Run(() => context.Set<T>().ToList());
         }
 
-        public async Task<T?> GetByIdAsync(Guid? Id)
+        public async Task<T?> GetByIdAsync(int Id)
         {
             return await context.Set<T>().FindAsync(Id);
         }

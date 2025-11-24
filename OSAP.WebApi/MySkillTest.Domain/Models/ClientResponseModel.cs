@@ -8,7 +8,7 @@ namespace MySkillTest.Domain.Models
 {
     public class ClientResponseModel
     {
-        public Guid ClientId { get; set; }
+        public int ClientId { get; set; }
         public string ClientName { get; set; } = string.Empty;
         public string ClientConfigurationJson { get; set; }=string.Empty;
         public Guid? CreatedBy { get; set; }

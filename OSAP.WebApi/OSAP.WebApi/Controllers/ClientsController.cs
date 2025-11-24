@@ -34,8 +34,8 @@ namespace MySkillTest.WebApi.Controllers
 
         // GET: api/Clients/5
         //[ResponseType(typeof(ClientModel))]
-        [HttpGet("getClientById/{id:guid}")]
-        public async Task<IActionResult> GetClientById(Guid id)
+        [HttpGet("getClientById/{id:int}")]
+        public async Task<IActionResult> GetClientById(int id)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace MySkillTest.WebApi.Controllers
 
         // DELETE: api/Clients/5
         [HttpDelete("deleteClientById/{id:guid}")]
-        public async Task<IActionResult> DeleteClient(Guid id)
+        public async Task<IActionResult> DeleteClient(int id)
         {
             try
             {

@@ -17,7 +17,7 @@ namespace OSAP.WebApi.Models
     }
     public class ChangePasswordModel
     {
-        public Guid? UserId { get; set; }
+        public int? UserId { get; set; }
 
 
         [Required(ErrorMessage = "Enter Old Password")]
